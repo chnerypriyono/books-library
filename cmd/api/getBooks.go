@@ -5,13 +5,13 @@ import (
 	"database/sql"
     "encoding/json"       
     "strconv"
-    _ "github.com/go-sql-driver/mysql"
+    _ "github.com/lib/pq"
     "github.com/gorilla/mux"
     "os"
 )
 
 const (
-	dbDriver = "mysql"
+	dbDriver = "postgres"
 )
 
 type BookOverview struct {
@@ -29,7 +29,7 @@ type BookDetail struct {
 }
 
 func (app *application) getBooksHandler(w http.ResponseWriter, r *http.Request) {
-    db, err := sql.Open(dbDriver, os.Getenv("MYSQL_URL"))
+    db, err := sql.Open(dbDriver, os.Getenv("DATABASE_URL"))
     if err != nil {
       panic(err.Error())
     }
@@ -47,7 +47,7 @@ func (app *application) getBooksHandler(w http.ResponseWriter, r *http.Request) 
 }
 
 func (app *application) getBookDetailHandler(w http.ResponseWriter, r *http.Request) {
-    db, err := sql.Open(dbDriver, os.Getenv("MYSQL_URL"))
+    db, err := sql.Open(dbDriver, os.Getenv("DATABASE_URL"))
     if err != nil {
       panic(err.Error())
     }
