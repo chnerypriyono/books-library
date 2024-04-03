@@ -71,7 +71,7 @@ func (app *application) getBookDetailHandler(w http.ResponseWriter, r *http.Requ
 
 
 func GetBooks(db *sql.DB) ([]BookOverview, error) {
-    query := "SELECT id, title, author FROM books"
+    query := "SELECT id, title, author FROM books;"
     rows, err := db.Query(query)
 
     if err != nil {
@@ -96,7 +96,7 @@ func GetBooks(db *sql.DB) ([]BookOverview, error) {
 
 
 func GetBookDetail(db *sql.DB, id int) (*BookDetail, error) {
-    query := "SELECT * FROM books WHERE id = ?"
+    query := "SELECT * FROM books WHERE id = $1;"
     row := db.QueryRow(query, id)
 
     book := &BookDetail{}
