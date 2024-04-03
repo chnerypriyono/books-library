@@ -7,7 +7,7 @@ import (
 func (app *application) getBooksHandler(w http.ResponseWriter, r *http.Request) {
 	data := map[string]string{
 		"status":  "ok",
-		"books": "will place books data here"
+		"books": "will place books data here",
 	}
 
 	// No need to add acess control origin headers. On other routes, that may be necessary
