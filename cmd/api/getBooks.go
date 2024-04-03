@@ -98,6 +98,7 @@ func GetBooks(db *sql.DB) ([]BookOverview, error) {
 
 
 func GetBookDetail(db *sql.DB, id int) (*BookDetail, error) {
+	app.logger.Info("id: ", id)
     query := "SELECT * FROM books WHERE id = $1;"
     row := db.QueryRow(query, id)
 
