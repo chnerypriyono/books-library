@@ -5,8 +5,7 @@ import (
 	"database/sql"
     "encoding/json"       
     "strconv"
-    _ "github.com/lib/pq"
-    "github.com/gorilla/mux"
+    _ "github.com/lib/pq"   
     "os"
 )
 
@@ -15,17 +14,17 @@ const (
 )
 
 type BookOverview struct {
-    id    	int
-    title  	string
-    author 	string   
+    Id    	int 	`json:"id"`
+    Title  	string	`json:"title"`
+    Author 	string	`json:"author"`
   }
 
 type BookDetail struct {
-	id    		int
-	title  		string
-	author 		string
-	description string
-	rating 		int
+	Id    		int 	`json:"id"`
+    Title  		string	`json:"title"`
+    Author 		string	`json:"author"`
+	Description string	`json:"description"`
+	Rating 		int 	`json:"rating"`
 }
 
 func (app *application) getBooksHandler(w http.ResponseWriter, r *http.Request) {
@@ -53,8 +52,7 @@ func (app *application) getBookDetailHandler(w http.ResponseWriter, r *http.Requ
     }
     defer db.Close()
     
-    vars := mux.Vars(r)
-    idStr := vars["id"]
+    idStr := r.URL.Query().Get("id")
 
     bookID, err := strconv.Atoi(idStr)
 
@@ -83,7 +81,7 @@ func GetBooks(app *application, db *sql.DB) ([]BookOverview, error) {
 
     for rows.Next() {
         var book BookOverview
-        if err := rows.Scan(&book.id, &book.title, &book.author); err != nil {
+        if err := rows.Scan(&book.Id, &book.Title, &book.Author); err != nil {
             return books, err
         }
         app.logger.Info("book: ", book)
@@ -103,7 +101,7 @@ func GetBookDetail(app *application, db *sql.DB, id int) (*BookDetail, error) {
     row := db.QueryRow(query, id)
 
     book := &BookDetail{}
-    err := row.Scan(&book.id, &book.title, &book.author, &book.description, &book.rating)
+    err := row.Scan(&book.Id, &book.Title, &book.Author, &book.Description, &book.Rating)
     if err != nil {    	
         return nil, err
     }
