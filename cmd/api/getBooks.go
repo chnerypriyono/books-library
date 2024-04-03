@@ -75,7 +75,6 @@ func GetBooks(db *sql.DB) ([]BookOverview, error) {
     rows, err := db.Query(query)
 
     if err != nil {
-    	app.logger.Error(err.Error())
         return nil, err
     }
     defer rows.Close()
@@ -89,8 +88,7 @@ func GetBooks(db *sql.DB) ([]BookOverview, error) {
         }
         books = append(books, book)
     }
-    if err = rows.Err(); err != nil {
-    	app.logger.Error(err.Error())
+    if err = rows.Err(); err != nil {    	
         return books, err
     }
     return books, nil
@@ -103,8 +101,7 @@ func GetBookDetail(db *sql.DB, id int) (*BookDetail, error) {
 
     book := &BookDetail{}
     err := row.Scan(&book.id, &book.title, &book.author, &book.description, &book.rating)
-    if err != nil {
-    	app.logger.Error(err.Error())
+    if err != nil {    	
         return nil, err
     }
     return book, nil
