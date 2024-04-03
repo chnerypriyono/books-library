@@ -46,7 +46,7 @@ func (app *application) getBooksHandler(w http.ResponseWriter, r *http.Request) 
 }
 
 func (app *application) getBookDetailHandler(w http.ResponseWriter, r *http.Request) {
-    db, err := sql.Open(dbDriver, os.Getenv(MYSQL_PRIVATE_URL))
+    db, err := sql.Open(dbDriver, os.Getenv("MYSQL_PRIVATE_URL"))
     if err != nil {
       panic(err.Error())
     }
