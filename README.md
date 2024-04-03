@@ -1,2 +1,2 @@
-# railway-go-api
-This contains the code necessary to bootstrap a simple REST api in go with minimal 3rd party dependencies.
+# books-library
+REST API to perform CRUD operations on database of books library
