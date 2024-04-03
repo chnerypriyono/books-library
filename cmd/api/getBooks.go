@@ -3,13 +3,11 @@ package main
 import (
 	"net/http"
 	"database/sql"
-    "encoding/json"
-    "fmt"
-    "log"
-    "net/http"
+    "encoding/json"       
     "strconv"
     _ "github.com/go-sql-driver/mysql"
     "github.com/gorilla/mux"
+    "os"
 )
 
 const (
@@ -31,7 +29,7 @@ type BookDetail struct {
 }
 
 func (app *application) getBooksHandler(w http.ResponseWriter, r *http.Request) {
-    db, err := sql.Open(dbDriver, os.Getenv(MYSQL_PRIVATE_URL))
+    db, err := sql.Open(dbDriver, os.Getenv("MYSQL_PRIVATE_URL"))
     if err != nil {
       panic(err.Error())
     }
