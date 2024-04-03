@@ -35,7 +35,7 @@ func (app *application) getBooksHandler(w http.ResponseWriter, r *http.Request) 
     }
     defer db.Close()    
 
-    books, err := GetBooks(db)
+    books, err := GetBooks(app, db)
     if err != nil {
       app.logger.Error(err.Error())
       http.Error(w, "Not found", http.StatusNotFound)
@@ -58,7 +58,7 @@ func (app *application) getBookDetailHandler(w http.ResponseWriter, r *http.Requ
 
     bookID, err := strconv.Atoi(idStr)
 
-    book, err := GetBookDetail(db, bookID)
+    book, err := GetBookDetail(app, db, bookID)
     if err != nil {
       app.logger.Error(err.Error())
       http.Error(w, "Book not found", http.StatusNotFound)
@@ -70,7 +70,7 @@ func (app *application) getBookDetailHandler(w http.ResponseWriter, r *http.Requ
 }
 
 
-func GetBooks(db *sql.DB) ([]BookOverview, error) {
+func GetBooks(app *application, db *sql.DB) ([]BookOverview, error) {
     query := "SELECT id, title, author FROM books;"
     rows, err := db.Query(query)
 
@@ -97,7 +97,7 @@ func GetBooks(db *sql.DB) ([]BookOverview, error) {
 }
 
 
-func GetBookDetail(db *sql.DB, id int) (*BookDetail, error) {
+func GetBookDetail(app *application, db *sql.DB, id int) (*BookDetail, error) {
 	app.logger.Info("id: ", id)
     query := "SELECT * FROM books WHERE id = $1;"
     row := db.QueryRow(query, id)
