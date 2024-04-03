@@ -86,11 +86,13 @@ func GetBooks(db *sql.DB) ([]BookOverview, error) {
         if err := rows.Scan(&book.id, &book.title, &book.author); err != nil {
             return books, err
         }
+        app.logger.Info("book: ", book)
         books = append(books, book)
     }
     if err = rows.Err(); err != nil {    	
         return books, err
     }
+    app.logger.Info("books: ", books)
     return books, nil
 }
 
