@@ -37,6 +37,7 @@ func (app *application) getBooksHandler(w http.ResponseWriter, r *http.Request) 
 
     books, err := GetBooks(db)
     if err != nil {
+      app.logger.Error(err.Error())
       http.Error(w, "Not found", http.StatusNotFound)
       return
     }
@@ -59,6 +60,7 @@ func (app *application) getBookDetailHandler(w http.ResponseWriter, r *http.Requ
 
     book, err := GetBookDetail(db, bookID)
     if err != nil {
+      app.logger.Error(err.Error())
       http.Error(w, "Book not found", http.StatusNotFound)
       return
     }
@@ -73,6 +75,7 @@ func GetBooks(db *sql.DB) ([]BookOverview, error) {
     rows, err := db.Query(query)
 
     if err != nil {
+    	app.logger.Error(err.Error())
         return nil, err
     }
     defer rows.Close()
@@ -87,6 +90,7 @@ func GetBooks(db *sql.DB) ([]BookOverview, error) {
         books = append(books, book)
     }
     if err = rows.Err(); err != nil {
+    	app.logger.Error(err.Error())
         return books, err
     }
     return books, nil
@@ -100,6 +104,7 @@ func GetBookDetail(db *sql.DB, id int) (*BookDetail, error) {
     book := &BookDetail{}
     err := row.Scan(&book.id, &book.title, &book.author, &book.description, &book.rating)
     if err != nil {
+    	app.logger.Error(err.Error())
         return nil, err
     }
     return book, nil
