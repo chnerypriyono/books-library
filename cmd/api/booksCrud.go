@@ -116,7 +116,7 @@ func (app *application) deleteBookHandler(w http.ResponseWriter, r *http.Request
 
     bookID, err := strconv.Atoi(idStr)
 
-    err := deleteBook(app, db, bookID)
+    err = deleteBook(app, db, bookID)
     if err != nil {
       app.logger.Error(err.Error())
       http.Error(w, "delete failed", http.StatusNotFound)
@@ -127,7 +127,7 @@ func (app *application) deleteBookHandler(w http.ResponseWriter, r *http.Request
 
 func deleteBook(app *application, db *sql.DB, id int) (error) {
     query := "DELETE FROM books WHERE id = $1;"
-    res, err := db.Exec(query, id)
+    _, err := db.Exec(query, id)
 
     return err
 }
@@ -142,7 +142,7 @@ func (app *application) updateBookHandler(w http.ResponseWriter, r *http.Request
     var book BookDetail
     json.NewDecoder(r.Body).Decode(&book)
 
-    err := updateBook(app, db, book)
+    err = updateBook(app, db, book)
     if err != nil {
       app.logger.Error(err.Error())
       http.Error(w, "update failed", http.StatusNotFound)
@@ -152,12 +152,12 @@ func (app *application) updateBookHandler(w http.ResponseWriter, r *http.Request
 }
 
 func updateBook(app *application, db *sql.DB, book BookDetail) (error) {
-    query := "UPDATE books SET title = '" + book.Title + "'"
-    		+ ", author = '" + book.Author + "'"
-    		+ ", description = '" + book.Description + "'"
-    		+ ", rating = " + book.Rating
-    		+ "WHERE id = $1;"
-    res, err := db.Exec(query, book.Id)
+    query := "UPDATE books SET title = '" + book.Title + "'" +
+    		", author = '" + book.Author + "'" +
+    		", description = '" + book.Description + "'" +
+    		", rating = " + book.Rating +
+    		"WHERE id = $1;"
+    _, err := db.Exec(query, book.Id)
 
     return err
 }
@@ -172,7 +172,7 @@ func (app *application) createBookHandler(w http.ResponseWriter, r *http.Request
     var book BookDetail
     json.NewDecoder(r.Body).Decode(&book)
 
-    err := createBook(app, db, book)
+    err = createBook(app, db, book)
     if err != nil {
       app.logger.Error(err.Error())
       http.Error(w, "create failed", http.StatusNotFound)
@@ -182,13 +182,13 @@ func (app *application) createBookHandler(w http.ResponseWriter, r *http.Request
 }
 
 func createBook(app *application, db *sql.DB, book BookDetail) (error) {
-    query := "INSERT INTO books(title, author, description, rating) VALUES ("
-    		+ book.Title + ","
-    		+ book.Author + ","
-    		+ book.Description + ","
-    		+ book.Rating    	
-    		+ ");"
-    res, err := db.Exec(query)
+    query := "INSERT INTO books(title, author, description, rating) VALUES (" +
+    		book.Title + "," +
+    		book.Author + "," +
+    		book.Description + "," +
+    		book.Rating +
+    		");"
+    _, err := db.Exec(query)
 
     return err
 }
