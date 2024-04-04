@@ -152,12 +152,12 @@ func (app *application) updateBookHandler(w http.ResponseWriter, r *http.Request
 }
 
 func updateBook(app *application, db *sql.DB, book BookDetail) (error) {
-    query := "UPDATE books SET title = '" + book.title + "'"
-    		+ ", author = '" + book.author + "'"
-    		+ ", description = '" + book.description + "'"
-    		+ ", rating = " + book.rating
+    query := "UPDATE books SET title = '" + book.Title + "'"
+    		+ ", author = '" + book.Author + "'"
+    		+ ", description = '" + book.Description + "'"
+    		+ ", rating = " + book.Rating
     		+ "WHERE id = $1;"
-    res, err := db.Exec(query, book.id)
+    res, err := db.Exec(query, book.Id)
 
     return err
 }
@@ -183,10 +183,10 @@ func (app *application) createBookHandler(w http.ResponseWriter, r *http.Request
 
 func createBook(app *application, db *sql.DB, book BookDetail) (error) {
     query := "INSERT INTO books(title, author, description, rating) VALUES ("
-    		+ book.title + ","
-    		+ book.author + ","
-    		+ book.description + ","
-    		+ book.rating    	
+    		+ book.Title + ","
+    		+ book.Author + ","
+    		+ book.Description + ","
+    		+ book.Rating    	
     		+ ");"
     res, err := db.Exec(query)
 
