@@ -156,7 +156,7 @@ func updateBook(app *application, db *sql.DB, book BookDetail) (error) {
     		", author = '" + book.Author + "'" +
     		", description = '" + book.Description + "'" +
     		", rating = " + strconv.Itoa(book.Rating) +
-    		"WHERE id = $1;"
+    		" WHERE id = $1;"
     _, err := db.Exec(query, book.Id)
 
     return err
