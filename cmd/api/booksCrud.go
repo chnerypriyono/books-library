@@ -155,7 +155,7 @@ func updateBook(app *application, db *sql.DB, book BookDetail) (error) {
     query := "UPDATE books SET title = '" + book.Title + "'" +
     		", author = '" + book.Author + "'" +
     		", description = '" + book.Description + "'" +
-    		", rating = " + book.Rating +
+    		", rating = " + strconv.Itoa(book.Rating) +
     		"WHERE id = $1;"
     _, err := db.Exec(query, book.Id)
 
@@ -183,10 +183,10 @@ func (app *application) createBookHandler(w http.ResponseWriter, r *http.Request
 
 func createBook(app *application, db *sql.DB, book BookDetail) (error) {
     query := "INSERT INTO books(title, author, description, rating) VALUES (" +
-    		book.Title + "," +
-    		book.Author + "," +
-    		book.Description + "," +
-    		book.Rating +
+    		"'" + book.Title + "'," +
+    		"'" + book.Author + "'," +
+    		"'" + book.Description + "'," +
+    		"'" + strconv.Itoa(book.Rating) + "'" +
     		");"
     _, err := db.Exec(query)
 
