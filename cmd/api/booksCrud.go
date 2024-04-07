@@ -48,7 +48,7 @@ func (app *application) getBooksHandler(w http.ResponseWriter, r *http.Request) 
 }
 
 func getBooks(app *application, db *sql.DB) ([]BookOverview, error) {
-    query := "SELECT id, title, author, imageUrl FROM books;"
+    query := "SELECT id, title, author, imageurl FROM books;"
     rows, err := db.Query(query)
 
     if err != nil {
@@ -158,7 +158,7 @@ func updateBook(app *application, db *sql.DB, book BookDetail) (error) {
     		", author = '" + book.Author + "'" +
             ", publisher = '" + book.Publisher + "'" +
     		", description = '" + book.Description + "'" +
-    		", imageUrl = '" + book.ImageUrl + "'" +
+    		", imageurl = '" + book.ImageUrl + "'" +
     		" WHERE id = $1;"
     _, err := db.Exec(query, book.Id)
 
@@ -185,7 +185,7 @@ func (app *application) createBookHandler(w http.ResponseWriter, r *http.Request
 }
 
 func createBook(app *application, db *sql.DB, book BookDetail) (error) {
-    query := "INSERT INTO books(title, author, publisher, description, imageUrl) VALUES (" +
+    query := "INSERT INTO books(title, author, publisher, description, imageurl) VALUES (" +
     		"'" + book.Title + "'," +
     		"'" + book.Author + "'," +
             "'" + book.Publisher + "'," +
