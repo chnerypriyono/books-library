@@ -41,7 +41,7 @@ func (app *application) getBooksHandler(w http.ResponseWriter, r *http.Request) 
 }
 
 func getBooks(app *application, db *sql.DB) ([]Book, error) {
-    query := "SELECT id, title, author, publisher, description, imageurl FROM books;"
+    query := "SELECT id, title, author, publisher, description, imageurl FROM books ORDER BY title ASC;"
     rows, err := db.Query(query)
 
     if err != nil {
