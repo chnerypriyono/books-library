@@ -49,7 +49,7 @@ func getBooks(app *application, db *sql.DB) ([]Book, error) {
     }
     defer rows.Close()
 
-    var books []Book
+    books := []Book{}
 
     for rows.Next() {
         var book Book
