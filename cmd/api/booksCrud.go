@@ -17,7 +17,7 @@ type BookOverview struct {
     Id    	    int 	`json:"id"`
     Title  	    string	`json:"title"`
     Author 	    string	`json:"author"`
-    ImageUrl    string  `json:"imageUrl"`
+    ImageUrl    string  `json:"image_url"`
   }
 
 type BookDetail struct {
@@ -26,7 +26,7 @@ type BookDetail struct {
     Author 		string	`json:"author"`
     Publisher   string  `json:"publisher"`
 	Description string	`json:"description"`
-	ImageUrl    string  `json:"imageUrl"`
+	ImageUrl    string  `json:"image_url"`
 }
 
 func (app *application) getBooksHandler(w http.ResponseWriter, r *http.Request) {
