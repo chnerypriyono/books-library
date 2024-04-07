@@ -13,14 +13,7 @@ const (
 	dbDriver = "postgres"
 )
 
-type BookOverview struct {
-    Id    	    int 	`json:"id"`
-    Title  	    string	`json:"title"`
-    Author 	    string	`json:"author"`
-    ImageUrl    string  `json:"image_url"`
-  }
-
-type BookDetail struct {
+type Book struct {
 	Id    		int 	`json:"id"`
     Title  		string	`json:"title"`
     Author 		string	`json:"author"`
@@ -47,8 +40,8 @@ func (app *application) getBooksHandler(w http.ResponseWriter, r *http.Request) 
     json.NewEncoder(w).Encode(books)
 }
 
-func getBooks(app *application, db *sql.DB) ([]BookOverview, error) {
-    query := "SELECT id, title, author, imageurl FROM books;"
+func getBooks(app *application, db *sql.DB) ([]Book, error) {
+    query := "SELECT id, title, author, publisher, description, imageurl FROM books;"
     rows, err := db.Query(query)
 
     if err != nil {
@@ -56,11 +49,11 @@ func getBooks(app *application, db *sql.DB) ([]BookOverview, error) {
     }
     defer rows.Close()
 
-    var books []BookOverview
+    var books []Book
 
     for rows.Next() {
-        var book BookOverview
-        if err := rows.Scan(&book.Id, &book.Title, &book.Author, &book.ImageUrl); err != nil {
+        var book Book
+        if err := rows.Scan(&book.Id, &book.Title, &book.Author, &book.Publisher, &book.Description, &book.ImageUrl); err != nil {
             return books, err
         }
         app.logger.Info("retrieved book row", "book", book)
@@ -71,40 +64,6 @@ func getBooks(app *application, db *sql.DB) ([]BookOverview, error) {
     }
     app.logger.Info("retrieved books", "books", books)
     return books, nil
-}
-
-func (app *application) getBookDetailHandler(w http.ResponseWriter, r *http.Request) {
-    db, err := sql.Open(dbDriver, os.Getenv("DATABASE_URL"))
-    if err != nil {
-      panic(err.Error())
-    }
-    defer db.Close()
-    
-    idStr := r.URL.Query().Get("id")
-
-    bookID, err := strconv.Atoi(idStr)
-
-    book, err := getBookDetail(app, db, bookID)
-    if err != nil {
-      app.logger.Error(err.Error())
-      http.Error(w, "Book not found", http.StatusNotFound)
-      return
-    }
-   
-    w.Header().Set("Content-Type", "application/json")
-    json.NewEncoder(w).Encode(book)
-}
-
-func getBookDetail(app *application, db *sql.DB, id int) (*BookDetail, error) {
-    query := "SELECT id, title, author, publisher, description, imageurl FROM books WHERE id = $1;"
-    row := db.QueryRow(query, id)
-
-    book := &BookDetail{}
-    err := row.Scan(&book.Id, &book.Title, &book.Author, &book.Publisher, &book.Description, &book.ImageUrl)
-    if err != nil {    	
-        return nil, err
-    }
-    return book, nil
 }
 
 func (app *application) deleteBookHandler(w http.ResponseWriter, r *http.Request) {
@@ -141,7 +100,7 @@ func (app *application) updateBookHandler(w http.ResponseWriter, r *http.Request
     }
     defer db.Close()
     
-    var book BookDetail
+    var book Book
     json.NewDecoder(r.Body).Decode(&book)
 
     err = updateBook(app, db, book)
@@ -153,7 +112,7 @@ func (app *application) updateBookHandler(w http.ResponseWriter, r *http.Request
     w.WriteHeader(http.StatusOK)
 }
 
-func updateBook(app *application, db *sql.DB, book BookDetail) (error) {
+func updateBook(app *application, db *sql.DB, book Book) (error) {
     query := "UPDATE books SET title = '" + book.Title + "'" +
     		", author = '" + book.Author + "'" +
             ", publisher = '" + book.Publisher + "'" +
@@ -172,7 +131,7 @@ func (app *application) createBookHandler(w http.ResponseWriter, r *http.Request
     }
     defer db.Close()
     
-    var book BookDetail
+    var book Book
     json.NewDecoder(r.Body).Decode(&book)
 
     err = createBook(app, db, book)
@@ -184,7 +143,7 @@ func (app *application) createBookHandler(w http.ResponseWriter, r *http.Request
     w.WriteHeader(http.StatusCreated)
 }
 
-func createBook(app *application, db *sql.DB, book BookDetail) (error) {
+func createBook(app *application, db *sql.DB, book Book) (error) {
     query := "INSERT INTO books(title, author, publisher, description, imageurl) VALUES (" +
     		"'" + book.Title + "'," +
     		"'" + book.Author + "'," +
