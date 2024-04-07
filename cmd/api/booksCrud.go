@@ -14,17 +14,19 @@ const (
 )
 
 type BookOverview struct {
-    Id    	int 	`json:"id"`
-    Title  	string	`json:"title"`
-    Author 	string	`json:"author"`
+    Id    	    int 	`json:"id"`
+    Title  	    string	`json:"title"`
+    Author 	    string	`json:"author"`
+    ImageUrl    string  `json:"imageUrl"`
   }
 
 type BookDetail struct {
 	Id    		int 	`json:"id"`
     Title  		string	`json:"title"`
     Author 		string	`json:"author"`
+    Publisher   string  `json:"publisher"`
 	Description string	`json:"description"`
-	Rating 		int 	`json:"rating"`
+	ImageUrl    string  `json:"imageUrl"`
 }
 
 func (app *application) getBooksHandler(w http.ResponseWriter, r *http.Request) {
@@ -46,7 +48,7 @@ func (app *application) getBooksHandler(w http.ResponseWriter, r *http.Request) 
 }
 
 func getBooks(app *application, db *sql.DB) ([]BookOverview, error) {
-    query := "SELECT id, title, author FROM books;"
+    query := "SELECT id, title, author, imageUrl FROM books;"
     rows, err := db.Query(query)
 
     if err != nil {
@@ -58,7 +60,7 @@ func getBooks(app *application, db *sql.DB) ([]BookOverview, error) {
 
     for rows.Next() {
         var book BookOverview
-        if err := rows.Scan(&book.Id, &book.Title, &book.Author); err != nil {
+        if err := rows.Scan(&book.Id, &book.Title, &book.Author, &book.ImageUrl); err != nil {
             return books, err
         }
         app.logger.Info("retrieved book row", "book", book)
@@ -98,7 +100,7 @@ func getBookDetail(app *application, db *sql.DB, id int) (*BookDetail, error) {
     row := db.QueryRow(query, id)
 
     book := &BookDetail{}
-    err := row.Scan(&book.Id, &book.Title, &book.Author, &book.Description, &book.Rating)
+    err := row.Scan(&book.Id, &book.Title, &book.Author, &book.Publisher, &book.Description, &book.ImageUrl)
     if err != nil {    	
         return nil, err
     }
@@ -154,8 +156,9 @@ func (app *application) updateBookHandler(w http.ResponseWriter, r *http.Request
 func updateBook(app *application, db *sql.DB, book BookDetail) (error) {
     query := "UPDATE books SET title = '" + book.Title + "'" +
     		", author = '" + book.Author + "'" +
+            ", publisher = '" + book.Publisher + "'" +
     		", description = '" + book.Description + "'" +
-    		", rating = " + strconv.Itoa(book.Rating) +
+    		", imageUrl = '" + book.ImageUrl + "'" +
     		" WHERE id = $1;"
     _, err := db.Exec(query, book.Id)
 
@@ -182,11 +185,12 @@ func (app *application) createBookHandler(w http.ResponseWriter, r *http.Request
 }
 
 func createBook(app *application, db *sql.DB, book BookDetail) (error) {
-    query := "INSERT INTO books(title, author, description, rating) VALUES (" +
+    query := "INSERT INTO books(title, author, publisher, description, imageUrl) VALUES (" +
     		"'" + book.Title + "'," +
     		"'" + book.Author + "'," +
+            "'" + book.Publisher + "'," +
     		"'" + book.Description + "'," +
-    		"'" + strconv.Itoa(book.Rating) + "'" +
+    		"'" + book.ImageUrl + "'" +
     		");"
     _, err := db.Exec(query)
 
