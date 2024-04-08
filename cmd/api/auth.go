@@ -40,6 +40,11 @@ func (app *application) verifyIDToken(ctx context.Context, r *http.Request) (*au
     }
     idToken = splitToken[1]
 
+    //temporary backdoor for testing backend endpoints, delete after use
+    if idToken == "abc" {
+    	return nil, nil
+    }
+
 	token, err := app.authClient.VerifyIDToken(ctx, idToken)
 	if err != nil {
 		app.logger.Error(err.Error())
