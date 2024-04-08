@@ -14,8 +14,9 @@ const (
 
 func initFirebaseAuth(ctx context.Context, logger *slog.Logger) *auth.Client {
 	
-	var cfg firebase.Config
-	cfg.ProjectID = firebaseProjectId
+	cfg := &firebase.Config{
+		ProjectID: firebaseProjectId,
+	}
 
 	app, err := firebase.NewApp(ctx, cfg)
 	if err != nil {
