@@ -37,7 +37,7 @@ TABLESPACE pg_default;
 [/v1/getBooks](#get-v1getbooks) <br/>
 
 ## DELETE
-[/v1/deleteBook](#get-v1getbooks) <br/>
+[/v1/deleteBook](#delete-v1deletebook) <br/>
 
 
 
