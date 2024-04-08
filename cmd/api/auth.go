@@ -32,6 +32,11 @@ func (app *application) verifyIDToken(ctx context.Context, r *http.Request) (*au
 
 	idToken := r.Header.Get("Authorization")
     splitToken := strings.Split(idToken, "Bearer ")
+    if len(splitToken) < 2 {
+    	err := errors.New("authorization token not exists")
+    	app.logger.Error(err.Error())
+    	return nil, err
+    }
     idToken = splitToken[1]
 
 	token, err := app.authClient.VerifyIDToken(ctx, idToken)
