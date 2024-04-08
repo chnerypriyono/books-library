@@ -21,24 +21,6 @@ type application struct {
 	authClient *auth.Client
 }
 
-func (app *application) verifyIDToken(ctx context.Context, app *firebase.App, idToken string) *auth.Token {
-	// [START verify_id_token_golang]
-	client, err := app.Auth(ctx)
-	if err != nil {
-		logger.Error(err.Error())
-	}
-
-	token, err := client.VerifyIDToken(ctx, idToken)
-	if err != nil {
-		logger.Error(err.Error())
-	}
-
-	log.Printf("Verified ID token: %v\n", token)
-	// [END verify_id_token_golang]
-
-	return token
-}
-
 func main() {
 
 	var cfg config
