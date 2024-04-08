@@ -66,14 +66,12 @@ func getBooks(app *application, db *sql.DB) ([]Book, error) {
         var book Book
         if err := rows.Scan(&book.Id, &book.Title, &book.Author, &book.Publisher, &book.Description, &book.ImageUrl); err != nil {
             return books, err
-        }
-        app.logger.Info("retrieved book row", "book", book)
+        }        
         books = append(books, book)
     }
     if err = rows.Err(); err != nil {    	
         return books, err
     }
-    app.logger.Info("retrieved books", "books", books)
     return books, nil
 }
 
@@ -175,7 +173,7 @@ func (app *application) createBookHandler(w http.ResponseWriter, r *http.Request
         http.Error(w, "Authorization Required", http.StatusUnauthorized)
         return
     }
-    
+
     db, err := sql.Open(dbDriver, os.Getenv("DATABASE_URL"))
     if err != nil {
       panic(err.Error())
