@@ -7,8 +7,7 @@ import (
     "strconv"
     _ "github.com/lib/pq"   
     "os"
-    "context"
-    "errors"
+    "context"    
 )
 
 const (
