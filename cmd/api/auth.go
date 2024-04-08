@@ -9,6 +9,7 @@ import (
 	"firebase.google.com/go/v4/auth"
 	"google.golang.org/api/option"
 	"os"
+	"errors"
 )
 
 func initFirebaseAuth(ctx context.Context, logger *slog.Logger) *auth.Client {
