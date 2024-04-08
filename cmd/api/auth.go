@@ -13,7 +13,7 @@ import (
 
 func initFirebaseAuth(ctx context.Context, logger *slog.Logger) *auth.Client {
 
-	opt := option.WithCredentialsJSON(os.Getenv("FIREBASE_SERVICE_ACCOUNT_JSON"))
+	opt := option.WithCredentialsJSON([]byte(os.Getenv("FIREBASE_SERVICE_ACCOUNT_JSON")))
 
 	app, err := firebase.NewApp(ctx, nil, opt)
 	if err != nil {
