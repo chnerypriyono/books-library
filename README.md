@@ -94,7 +94,7 @@ This endpoint does not need any request parameters.
 ___
 
 ### DELETE /v1/deleteBook
-delete a book with specific id
+Delete a book with specific id.
 
 #### Request Parameters
 
@@ -113,7 +113,7 @@ Can be any of `4XX` or `5XX` in [possible status codes](#status-codes), dependin
 ___
 
 ### POST /v1/createBook
-create a new book
+Create a new book. Book `id` will be auto-generated in backend, so it is not needed to be supplied in the request body.
 
 #### Request Body
 Sample of the request body
