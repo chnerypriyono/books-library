@@ -122,3 +122,9 @@ This backend application returns the following status codes in its API:
 | 400 | `BAD REQUEST` |
 | 401 | `UNAUTHORIZED` |
 | 500 | `INTERNAL SERVER ERROR` |
+
+# Future Improvements Ideas
+- pagination mechanism when loading list of books, e.g. load only 20 books per page before scroll down and load more
+- unit test for backend code
+- book search, filter, and sort mechanisms (by keywords, authors, etc)
+
