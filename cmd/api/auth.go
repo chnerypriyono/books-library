@@ -6,19 +6,16 @@ import (
 	"net/http"
 	"strings"
 	firebase "firebase.google.com/go/v4"
-)
-
-const (
-	firebaseProjectId = "books-library-6afdb"
+	"firebase.google.com/go/v4/auth"
+	"google.golang.org/api/option"
+	"os"
 )
 
 func initFirebaseAuth(ctx context.Context, logger *slog.Logger) *auth.Client {
-	
-	cfg := &firebase.Config{
-		ProjectID: firebaseProjectId,
-	}
 
-	app, err := firebase.NewApp(ctx, cfg)
+	opt := option.WithCredentialsJSON(os.Getenv("FIREBASE_SERVICE_ACCOUNT_JSON"))
+
+	app, err := firebase.NewApp(ctx, nil, opt)
 	if err != nil {
 		panic(err)
 	}
