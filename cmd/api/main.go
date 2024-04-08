@@ -7,6 +7,8 @@ import (
 	"os"
 	"strconv"
 	"time"
+	"context"
+	firebase "firebase.google.com/go/v4"
 )
 
 type config struct {
@@ -16,6 +18,25 @@ type config struct {
 type application struct {
 	config config
 	logger *slog.Logger
+	authClient *auth.Client
+}
+
+func (app *application) verifyIDToken(ctx context.Context, app *firebase.App, idToken string) *auth.Token {
+	// [START verify_id_token_golang]
+	client, err := app.Auth(ctx)
+	if err != nil {
+		logger.Error(err.Error())
+	}
+
+	token, err := client.VerifyIDToken(ctx, idToken)
+	if err != nil {
+		logger.Error(err.Error())
+	}
+
+	log.Printf("Verified ID token: %v\n", token)
+	// [END verify_id_token_golang]
+
+	return token
 }
 
 func main() {
@@ -35,10 +56,13 @@ func main() {
 	// create the logger
 	logger := slog.New(slog.NewTextHandler(os.Stdout, nil))
 
+	authClient := initFirebaseAuth(context.Background(), logger)
+
 	// create the application
 	app := &application{
 		config: cfg,
 		logger: logger,
+		authClient: authClient
 	}
 
 	// create the server
