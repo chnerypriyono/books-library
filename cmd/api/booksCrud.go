@@ -32,7 +32,7 @@ func (app *application) getBooksHandler(w http.ResponseWriter, r *http.Request) 
     books, err := getBooks(app, db)
     if err != nil {
       app.logger.Error(err.Error())
-      http.Error(w, "Not found", http.StatusNotFound)
+      http.Error(w, "Get Books Failed", http.StatusInternalServerError)
       return
     }
    
@@ -80,7 +80,7 @@ func (app *application) deleteBookHandler(w http.ResponseWriter, r *http.Request
     err = deleteBook(app, db, bookID)
     if err != nil {
       app.logger.Error(err.Error())
-      http.Error(w, "delete failed", http.StatusNotFound)
+      http.Error(w, "Delete Book Failed", http.StatusInternalServerError)
       return
     }
     w.WriteHeader(http.StatusOK)
@@ -106,7 +106,7 @@ func (app *application) updateBookHandler(w http.ResponseWriter, r *http.Request
     err = updateBook(app, db, book)
     if err != nil {
       app.logger.Error(err.Error())
-      http.Error(w, "update failed", http.StatusNotFound)
+      http.Error(w, "Update Book Failed", http.StatusInternalServerError)
       return
     }  
     w.WriteHeader(http.StatusOK)
@@ -137,7 +137,7 @@ func (app *application) createBookHandler(w http.ResponseWriter, r *http.Request
     err = createBook(app, db, book)
     if err != nil {
       app.logger.Error(err.Error())
-      http.Error(w, "create failed", http.StatusNotFound)
+      http.Error(w, "Create Book Failed", http.StatusInternalServerError)
       return
     }  
     w.WriteHeader(http.StatusCreated)
