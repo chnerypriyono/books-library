@@ -44,7 +44,7 @@ func main() {
 	app := &application{
 		config: cfg,
 		logger: logger,
-		authClient: authClient
+		authClient: authClient,
 	}
 
 	// create the server
