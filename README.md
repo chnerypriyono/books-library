@@ -3,12 +3,41 @@ Golang-written backend code for serving REST API endpoints to perform CRUD (Crea
 This backend application consists of some REST API endpoints that could be used to interact with frontend applications (e.g.: Android, iOS, Web).
 
 # API endpoints
+All of below endpoints requires authorization header in below format:
+
+```
+Authorization: Bearer <token>
+```
+
+The token is JWT (JSON Web Tokens) that come from client applications that use [Firebase Authentication](https://firebase.google.com/docs/auth) for login and authentication procedure. The firebase service account private key must then be generated ([step-by-step instruction](https://firebase.google.com/docs/admin/setup#initialize_the_sdk_in_non-google_environments)) and the resulting JSON text need to be stored in `FIREBASE_SERVICE_ACCOUNT_JSON` environment variable on the hosting platform where this backend application is deployed into.
+
+Without valid token header, any of below endpoints will resulting in `401 UNAUTHORIZED` status code.
+
+Another environment variable that needs to be set is `DATABASE_URL`. It should be set to full url of PostgreSQL database that stores all of the books data, in below format:
+```
+postgresql://<user>:<password>@<host>:<port>/<database>
+```
+This database should contains a table that can be created by this schema:
+```
+CREATE TABLE IF NOT EXISTS public.books
+(
+    title text COLLATE pg_catalog."default",
+    author text COLLATE pg_catalog."default",
+    description text COLLATE pg_catalog."default",
+    publisher text COLLATE pg_catalog."default",
+    imageurl text COLLATE pg_catalog."default",
+    id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2000000 CACHE 1 ),
+    CONSTRAINT books_pkey PRIMARY KEY (id)
+)
+
+TABLESPACE pg_default;
+```
 
 ## GET
-[/v1/getBooks](#get-getBooks) <br/>
+[/v1/getBooks](#get-v1getbooks) <br/>
 
 ## DELETE
-[/v1/deleteBook](#delete-deleteBook) <br/>
+[/v1/deleteBook](#get-v1getbooks) <br/>
 
 
 
@@ -66,17 +95,20 @@ ___
 ### DELETE /v1/deleteBook
 delete a book with specific id
 
-**Parameters**
+**Request Parameters**
 
 |          Name | Required |  Type   | Description                                                                                                                                                           |
 | -------------:|:--------:|:-------:| --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 |     `id` | required | integer  | The id of book to be deleted.                                                                     |
 
-**Response**
+**Success Response**
 
 ```
 200 OK
 ```
+**Failed Response**
+
+Can be any of `4XX` or `5XX` in [possible status codes](#status-codes), depending on the error.
 ___
 
 ## Status Codes
