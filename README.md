@@ -39,7 +39,8 @@ TABLESPACE pg_default;
 ## DELETE
 [/v1/deleteBook](#delete-v1deletebook) <br/>
 
-
+## POST
+[/v1/createBook](post-v1createbook) <br/>
 
 ___
 
@@ -48,7 +49,7 @@ Get list of all available books.
 The response is automatically sorted by title alphabet in ascending manner.
 This endpoint does not need any request parameters.
 
-**Sample Response**
+#### Sample Response
 
 ```
 [
@@ -79,7 +80,7 @@ This endpoint does not need any request parameters.
 ]
 ```
 
-**Response Fields**
+#### Response Fields
 
 |          Name |  Type   | Description                                                                                                                                                           |
 | -------------:|:-------:| --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -95,18 +96,51 @@ ___
 ### DELETE /v1/deleteBook
 delete a book with specific id
 
-**Request Parameters**
+#### Request Parameters
 
 |          Name | Required |  Type   | Description                                                                                                                                                           |
 | -------------:|:--------:|:-------:| --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 |     `id` | required | integer  | The id of book to be deleted.                                                                     |
 
-**Success Response**
+#### Success Response
 
 ```
 200 OK
 ```
-**Failed Response**
+#### Failed Response
+
+Can be any of `4XX` or `5XX` in [possible status codes](#status-codes), depending on the error.
+___
+
+### POST /v1/createBook
+create a new book
+
+#### Request Body
+Sample of the request body
+```
+{
+    "title": "New Vegetarian: Bold and Beautiful Recipes for Every Occasion",
+    "author": "Celia Brooks Brown",
+    "description": "Lifts meat-free cooking out of the doldrums and gives it a new lease of life. Bold, bright and beautiful.",
+    "publisher": "Ryland Peters and Small Ltd.",
+    "image_url": "http://images.amazon.com/images/P/1841721522.01.LZZZZZZZ.jpg"
+}
+```
+
+|          Name | Required |  Type   | Description                                                                                                                                                           |
+| -------------:|:--------:|:-------:| --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|     `title` | required | string  | The title of the book to be created.                                                                     |
+|     `author` | required | string  | The author of the book to be created.                                                                     |
+|     `description` | required | string  | The description of the book to be created.                                                                     |
+|     `publisher` | required | string  | The publisher of the book to be created.                                                                     |
+|     `image_url` | required | string  | The image_url of the book to be created.                                                                     |
+
+#### Success Response
+
+```
+201 CREATED
+```
+#### Failed Response
 
 Can be any of `4XX` or `5XX` in [possible status codes](#status-codes), depending on the error.
 ___
