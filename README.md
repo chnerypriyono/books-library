@@ -42,6 +42,9 @@ TABLESPACE pg_default;
 ## POST
 [/v1/createBook](#post-v1createbook) <br/>
 
+## PUT
+[/v1/updateBook](#put-v1updatebook) <br/>
+
 ___
 
 ### GET /v1/getBooks
@@ -133,12 +136,47 @@ Sample of the request body
 |     `author` | required | string  | The author of the book to be created.                                                                     |
 |     `description` | required | string  | The description of the book to be created.                                                                     |
 |     `publisher` | required | string  | The publisher of the book to be created.                                                                     |
-|     `image_url` | required | string  | The image_url of the book to be created.                                                                     |
+|     `image_url` | required | string  | The image url of the book to be created.                                                                     |
 
 #### Success Response
 
 ```
 201 CREATED
+```
+#### Failed Response
+
+Can be any of `4XX` or `5XX` in [possible status codes](#status-codes), depending on the error.
+___
+
+### PUT /v1/updateBook
+Update an existing book details with specific `id`.
+
+#### Request Body
+Sample of the request body
+```
+{
+    "id":18,
+    "title": "New Vegetarian: Bold and Beautiful Recipes for Every Occasion",
+    "author": "Celia Brooks Brown",
+    "description": "Lifts meat-free cooking out of the doldrums and gives it a new lease of life. Bold, bright and beautiful.",
+    "publisher": "Ryland Peters Ltd.",
+    "image_url": "http://images.amazon.com/images/P/1841721522.01.LZZZZZZZ.jpg"
+}
+```
+
+|          Name | Required |  Type   | Description                                                                                                                                                           |
+| -------------:|:--------:|:-------:| --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|     `id` | required | integer  | The id of the book to be updated.                                                                     |
+|     `title` | required | string  | New title of the book.                                                                     |
+|     `author` | required | string  | New author of the book.                                                                     |
+|     `description` | required | string  | New description of the book.                                                                     |
+|     `publisher` | required | string  | New publisher of the book.                                                                     |
+|     `image_url` | required | string  | New image url of the book.                                                                     |
+
+#### Success Response
+
+```
+200 OK
 ```
 #### Failed Response
 
