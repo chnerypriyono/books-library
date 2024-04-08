@@ -7,6 +7,7 @@ import (
     "strconv"
     _ "github.com/lib/pq"   
     "os"
+    "context"
 )
 
 const (
@@ -23,6 +24,16 @@ type Book struct {
 }
 
 func (app *application) getBooksHandler(w http.ResponseWriter, r *http.Request) {
+
+    ctx, cancel := context.WithCancel(context.Background())
+    defer cancel()
+
+    _, err := app.verifyIDToken(ctx, r)
+    if err != nil {
+        http.Error(w, "Authorization Required", http.StatusUnauthorized)
+        return
+    }
+
     db, err := sql.Open(dbDriver, os.Getenv("DATABASE_URL"))
     if err != nil {
       panic(err.Error())
@@ -67,6 +78,16 @@ func getBooks(app *application, db *sql.DB) ([]Book, error) {
 }
 
 func (app *application) deleteBookHandler(w http.ResponseWriter, r *http.Request) {
+    
+    ctx, cancel := context.WithCancel(context.Background())
+    defer cancel()
+
+    _, err := app.verifyIDToken(ctx, r)
+    if err != nil {
+        http.Error(w, "Authorization Required", http.StatusUnauthorized)
+        return
+    }
+
     db, err := sql.Open(dbDriver, os.Getenv("DATABASE_URL"))
     if err != nil {
       panic(err.Error())
@@ -99,6 +120,16 @@ func deleteBook(app *application, db *sql.DB, id int) (error) {
 }
 
 func (app *application) updateBookHandler(w http.ResponseWriter, r *http.Request) {
+
+    ctx, cancel := context.WithCancel(context.Background())
+    defer cancel()
+
+    _, err := app.verifyIDToken(ctx, r)
+    if err != nil {
+        http.Error(w, "Authorization Required", http.StatusUnauthorized)
+        return
+    }
+
     db, err := sql.Open(dbDriver, os.Getenv("DATABASE_URL"))
     if err != nil {
       panic(err.Error())
@@ -135,6 +166,16 @@ func updateBook(app *application, db *sql.DB, book Book) (error) {
 }
 
 func (app *application) createBookHandler(w http.ResponseWriter, r *http.Request) {
+
+    ctx, cancel := context.WithCancel(context.Background())
+    defer cancel()
+
+    _, err := app.verifyIDToken(ctx, r)
+    if err != nil {
+        http.Error(w, "Authorization Required", http.StatusUnauthorized)
+        return
+    }
+    
     db, err := sql.Open(dbDriver, os.Getenv("DATABASE_URL"))
     if err != nil {
       panic(err.Error())

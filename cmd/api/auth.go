@@ -3,6 +3,8 @@ package main
 import (	
 	"log/slog"
 	"context"
+	"net/http"
+	"strings"
 	firebase "firebase.google.com/go/v4"
 )
 
@@ -11,7 +13,11 @@ const (
 )
 
 func initFirebaseAuth(ctx context.Context, logger *slog.Logger) *auth.Client {
-	app, err := firebase.NewApp(ctx, nil)
+	
+	var cfg firebase.Config
+	cfg.ProjectID = firebaseProjectId
+
+	app, err := firebase.NewApp(ctx, cfg)
 	if err != nil {
 		panic(err)
 	}
@@ -24,7 +30,11 @@ func initFirebaseAuth(ctx context.Context, logger *slog.Logger) *auth.Client {
 	return client
 }
 
-func (app *application) verifyIDToken(ctx context.Context, idToken string) (*auth.Token, error) {
+func (app *application) verifyIDToken(ctx context.Context, r *http.Request) (*auth.Token, error) {
+
+	idToken := r.Header.Get("Authorization")
+    splitToken := strings.Split(idToken, "Bearer ")
+    idToken = splitToken[1]
 
 	token, err := app.authClient.VerifyIDToken(ctx, idToken)
 	if err != nil {
