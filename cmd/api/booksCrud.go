@@ -76,6 +76,11 @@ func (app *application) deleteBookHandler(w http.ResponseWriter, r *http.Request
     idStr := r.URL.Query().Get("id")
 
     bookID, err := strconv.Atoi(idStr)
+    if err != nil {
+      app.logger.Error(err.Error())
+      http.Error(w, "Invalid 'id' query param value for deleteBook", http.StatusBadRequest)
+      return
+    }
 
     err = deleteBook(app, db, bookID)
     if err != nil {
@@ -101,7 +106,12 @@ func (app *application) updateBookHandler(w http.ResponseWriter, r *http.Request
     defer db.Close()
     
     var book Book
-    json.NewDecoder(r.Body).Decode(&book)
+    err = json.NewDecoder(r.Body).Decode(&book)
+    if err != nil {
+      app.logger.Error(err.Error())
+      http.Error(w, "Invalid request body", http.StatusBadRequest)
+      return
+    }
 
     err = updateBook(app, db, book)
     if err != nil {
@@ -132,7 +142,12 @@ func (app *application) createBookHandler(w http.ResponseWriter, r *http.Request
     defer db.Close()
     
     var book Book
-    json.NewDecoder(r.Body).Decode(&book)
+    err = json.NewDecoder(r.Body).Decode(&book)
+    if err != nil {
+      app.logger.Error(err.Error())
+      http.Error(w, "Invalid request body", http.StatusBadRequest)
+      return
+    }
 
     err = createBook(app, db, book)
     if err != nil {
