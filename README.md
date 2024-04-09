@@ -219,7 +219,7 @@ This FlutterFlow project has been compiled and built for Android
 
 Android APK link
 
-Above Android APK has been tested thoroughly to cover all the possible use cases and scenarios that I could be thought of,including:
+Above Android APK has been tested thoroughly to cover all the possible use cases and scenarios that I can think of, including:
 - Create new user (Sign Up), Logout, and re-Login
 - retrieving all books list and showing them on ListView
 - showing books detailed description and image (including zooming-in) in Book Detail Page
@@ -228,9 +228,9 @@ Above Android APK has been tested thoroughly to cover all the possible use cases
 - show error snackbar when edit operation (request to backend REST API) failed
 - show broken image illustration in both list page and detail page when image url is invalid
 - delete existing book from more action bottomsheet
-- show empty list view when there is no books available after all books have been deleted (I have tested this one but forgot to include in the recording)
+- show empty list view when there is no books available after all books have been deleted (I have tested this one but forgot to include in the below recording)
 
-Screen recording for testing use cases above
+Testing screen recording link
 
 # Future Improvements Ideas
 - pagination mechanism when loading list of books, e.g. load only 20 books per page before scroll down and load more
