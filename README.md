@@ -195,6 +195,43 @@ This backend application returns the following status codes in its API:
 | 401 | `UNAUTHORIZED` |
 | 500 | `INTERNAL SERVER ERROR` |
 
+# Backend Deployment and Frontend Implementation Sample
+This backend project has been deployed in below host address for sample:
+```
+https://books-library-production.up.railway.app
+```
+
+So the endpoints could be tested right away by combining above host address with endpoint address. For example to test getBooks endpoint:
+```
+https://books-library-production.up.railway.app/v1/getBooks
+```
+
+On this deployed backend side, I have tested some error handling mechanism, including:
+- returning `401 Unauthorized` when the Auth header is invalid or not exists when calling any of the endpoints
+- returning `500 Internal Server Error` when there is something wrong in the backend side, e.g. database corrupt
+- returning `400 Bad Request` when the request from client is invalid, e.g. containing malformed JSON in request body.
+
+The client-side also has been implemented for sample in FlutterFlow, which could be built and run on multiple platforms (Android, iOS, Web, etc). 
+
+[FlutterFlow project link](https://app.flutterflow.io/project/books-library-ocum33)
+
+This FlutterFlow project has been compiled and built for Android
+
+Android APK link
+
+Above Android APK has been tested thoroughly to cover all the possible use cases and scenarios that I could be thought of,including:
+- Create new user (Sign Up), Logout, and re-Login
+- retrieving all books list and showing them on ListView
+- showing books detailed description and image (including zooming-in) in Book Detail Page
+- Create new book using Floating Action Button (FAB)
+- Edit existing book detail from more action bottomsheet
+- show error snackbar when edit operation (request to backend REST API) failed
+- show broken image illustration in both list page and detail page when image url is invalid
+- delete existing book from more action bottomsheet
+- show empty list view when there is no books available after all books have been deleted (I have tested this one but forgot to include in the recording)
+
+Screen recording for testing use cases above
+
 # Future Improvements Ideas
 - pagination mechanism when loading list of books, e.g. load only 20 books per page before scroll down and load more
 - unit test for backend code
