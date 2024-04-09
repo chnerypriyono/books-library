@@ -217,7 +217,7 @@ The client-side also has been implemented for sample in FlutterFlow, which could
 
 This FlutterFlow project has been compiled and built for Android
 
-Android APK link
+[Android APK link](https://drive.google.com/file/d/1IjMm8mpzekffCk6ma_h4bwvrx15KUigb/view?usp=drive_link)
 
 Above Android APK has been tested thoroughly to cover all the possible use cases and scenarios that I can think of, including:
 - Create new user (Sign Up), Logout, and re-Login
@@ -230,7 +230,8 @@ Above Android APK has been tested thoroughly to cover all the possible use cases
 - delete existing book from more action bottomsheet
 - show empty list view when there is no books available after all books have been deleted (I have tested this one but forgot to include in the below recording)
 
-Testing screen recording link
+Testing screen recording, low resolution. Use [this link](https://drive.google.com/file/d/1pnhnp0fyIEjL37h8YjtYTvtB31jdwGQV/view?usp=drive_link) for high-resolution, uncompressed one (GitHub limits the file size to 10MB, so I can't put the high res one here)
+
 
 # Future Improvements Ideas
 - pagination mechanism when loading list of books, e.g. load only 20 books per page before scroll down and load more
