@@ -230,8 +230,17 @@ Above Android APK has been tested thoroughly to cover all the possible use cases
 - delete existing book from more action bottomsheet
 - show empty list view when there is no books available after all books have been deleted (I have tested this one but forgot to include in the below recording)
 
-Testing screen recording, low resolution. Use [this link](https://drive.google.com/file/d/1pnhnp0fyIEjL37h8YjtYTvtB31jdwGQV/view?usp=drive_link) for high-resolution, uncompressed one (GitHub limits the file size to 10MB, so I can't put the high res one here)
+[Testing screen recording link](https://drive.google.com/file/d/1pnhnp0fyIEjL37h8YjtYTvtB31jdwGQV/view?usp=drive_link)
 
+## Preview Screenshots
+<img src="https://github.com/chnerypriyono/books-library/assets/13723945/0fa98039-8650-4f97-a5a9-223ff47822f4" height=500/>
+<img src="https://github.com/chnerypriyono/books-library/assets/13723945/f090cdb9-f97b-4f73-99ce-728dbd89e527" height=500/>
+<img src="https://github.com/chnerypriyono/books-library/assets/13723945/8e0c72d3-bdb6-44bc-b67d-bfe51a3dd9c9" height=500/>
+<img src="https://github.com/chnerypriyono/books-library/assets/13723945/1b4b0366-15b1-48fc-b7f3-a65d5e01c4b3" height=500/>
+<img src="https://github.com/chnerypriyono/books-library/assets/13723945/46fcbb7d-8a7f-4476-bc45-05f78fc5579c" height=500/>
+<img src="https://github.com/chnerypriyono/books-library/assets/13723945/86e99c7a-e5e8-49b6-99d6-9e195f1f356e" height=500/>
+<img src="https://github.com/chnerypriyono/books-library/assets/13723945/634b70a9-9df0-40a3-9013-154adca91200" height=500/>
+<img src="https://github.com/chnerypriyono/books-library/assets/13723945/1a3ac136-737b-4f85-a9f3-a0bef1adfd4b" height=500/>
 
 # Future Improvements Ideas
 - pagination mechanism when loading list of books, e.g. load only 20 books per page before scroll down and load more
